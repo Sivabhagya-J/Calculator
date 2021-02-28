@@ -1,0 +1,81 @@
+.background {
+    background: linear-gradient(135deg, #9d5fd4 0%, #f49076 100%);
+    background-repeat: no-repeat;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calc-box {
+    font-family: 'Lato';
+    width: 320px;
+}
+
+.calc-display {
+    min-height: 85px;
+    background-color: #212121;
+    padding: 20px;
+}
+
+#calc-input {
+    color: #f49076;
+    text-align: right;
+    min-height: 20px;
+    padding-top: 5px;
+    word-break: break-all;
+}
+
+#calc-result {
+    color: #ffffff;
+    text-align: right;
+    font-size: 42px;
+    padding-top: 10px;
+    word-break: break-all;
+}
+
+.calc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    cursor: pointer;
+}
+
+.calc-actions div {
+    height: 80px;
+    width: 25%;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f1 100%);
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #808080;
+}
+
+.calc-actions div:hover {
+    background: #e1e1e1;
+}
+
+.calc-actions div:nth-child(4n+0) {
+    background: linear-gradient(135deg, #9157e2 0%, #8547da 100%);
+    color: #ffffff;
+}
+
+.calc-actions div:nth-child(4n+0):hover {
+    background: #5821a5;
+}
+
+.calc-actions div:last-child {
+    background: #e72f89 !important;
+    width: 50% !important;
+    color: #ffffff;
+}
+
+.calc-actions div:last-child:hover {
+    background: #b6075c !important;
+}
+
+.font40 {
+    font-size: 40px !important;
+}
