@@ -11,14 +11,15 @@ function calculate(input) {
             value = checkOperators(value.charAt(value.length - 2)) ? value.replaceAt(value.length - 2, input) : value + " " + input + " ";
         }
     } else if (input === ".") {
-        value = setDecimalInput(input, value).toString();
+        value = setDecimalInput(input, value);
     } else if (input !== "=") {
-        value = checkValidInput(input, value).toString();
+        value = setValidInput(input, value);
     }
+    value = value.toString();
     displayElement.innerHTML = value;
-    var expression = value.replaceAll("x", "*");
-    expression = expression.replaceAll(" ", "");
+    var expression = value.replaceAll(" ", "");
     if (expression && expression.length && !checkOperators(expression[expression.length - 1])) {
+        expression = expression.replaceAll("x", "*");
         var result = eval(expression);
         document.getElementById("calc-result").innerHTML = result != undefined ? Math.round(result * Math.pow(10, 3)) / Math.pow(10, 3) : "";
     }
@@ -30,7 +31,7 @@ function calculate(input) {
  */
 function clearResult() {
     document.getElementById("calc-input").innerHTML = "";
-    document.getElementById("calc-result").innerHTML = "";
+    document.getElementById("calc-result").innerHTML = "0";
 }
 
 /**
@@ -46,8 +47,8 @@ function checkOperators(input) {
 /**
  * The method is used for replaceAt operation
  * @author Sivabhagya Jawahar
- * @param {*} index 
- * @param {*} replacement 
+ * @param {index to be removed} index 
+ * @param {replacement value} replacement 
  * @returns replaced value
  */
 String.prototype.replaceAt = function (index, replacement) {
@@ -61,14 +62,20 @@ String.prototype.replaceAt = function (index, replacement) {
  * @param {number/operator} value 
  * @returns input/value based on the user's valid input
  */
-function checkValidInput(input, value) {
+function setValidInput(input, value) {
     if (value) {
         var lastSpace = value.lastIndexOf(" ");
         if (lastSpace >= 0) {
             var substr = value.substr(lastSpace + 1, value.length);
+            if (substr && substr.indexOf(".") >= 0) {
+                return value + input;
+            }
             value = substr ? value.slice(0, lastSpace + 1) : value;
             value += Number(substr + input);
             return value;
+        }
+        if (value.indexOf(".") >= 0) {
+            return value + input;
         }
         return Number(value + input);
     }
