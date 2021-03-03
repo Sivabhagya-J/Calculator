@@ -12,6 +12,8 @@ function calculate(input) {
         }
     } else if (input === ".") {
         value = setDecimalInput(input, value);
+    } else if (input === "+/-") {
+        value = plusOrMinusOperation(input, value);
     } else if (input !== "=") {
         value = setValidInput(input, value);
     }
@@ -23,7 +25,7 @@ function calculate(input) {
         var result = eval(expression);
         document.getElementById("calc-result").innerHTML = result != undefined ? Math.round(result * Math.pow(10, 3)) / Math.pow(10, 3) : "";
     }
-}
+} 
 
 /**
  * The method will clear the display value and result
@@ -47,7 +49,7 @@ function checkOperators(input) {
 /**
  * The method is used for replaceAt operation
  * @author Sivabhagya Jawahar
- * @param {index to be removed} index 
+ * @param {ending index} index 
  * @param {replacement value} replacement 
  * @returns replaced value
  */
@@ -99,4 +101,23 @@ function setDecimalInput(input, value) {
         return isNaN(value + input) ? value : value + input;
     }
     return "0.";
+}
+
+/**
+ * The method is used to calculate the plus 0r minus operation
+ * @author Sivabhagya Jawahar
+ * @param {number} input 
+ * @param {number/operator} value 
+ * @returns value based on the user's input
+ */
+function plusOrMinusOperation(input, value) {
+    if (value) {
+        var lastSpace = value.lastIndexOf(" ");
+        if (lastSpace >= 0) {
+            var substr = value.substr(lastSpace + 1, value.length);
+            return isNaN(-1 * substr) ? value : value.slice(0, lastSpace+1) + (-1 * substr);
+        }
+        return isNaN(value * -1) ? value : value * -1;
+    }
+    return "-";
 }
