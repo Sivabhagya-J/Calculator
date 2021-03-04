@@ -7,13 +7,13 @@ function calculate(input) {
     var displayElement = document.getElementById("calc-input");
     var value = displayElement.innerHTML;
     if (checkOperators(input)) {
-        if (value) {
-            value = checkOperators(value.charAt(value.length - 2)) ? value.replaceAt(value.length - 2, input) : value + " " + input + " ";
+        if (value && value != "-" && value.charAt(value.length - 1) != "-") {
+            value = (checkOperators(value.charAt(value.length - 2)) && value.charAt(value.length - 1) == " ") ? value.replaceAt(value.length - 2, input) : value + " " + input + " ";
         }
     } else if (input === ".") {
         value = setDecimalInput(input, value);
     } else if (input === "+/-") {
-        value = plusOrMinusOperation(input, value);
+        value = plusOrMinusOperation(value);
     } else if (input !== "=") {
         value = setValidInput(input, value);
     }
@@ -49,8 +49,8 @@ function checkOperators(input) {
 /**
  * The method is used for replaceAt operation
  * @author Sivabhagya Jawahar
- * @param {ending index} index 
- * @param {replacement value} replacement 
+ * @param {number} index 
+ * @param {replacement string} replacement 
  * @returns replaced value
  */
 String.prototype.replaceAt = function (index, replacement) {
@@ -61,8 +61,8 @@ String.prototype.replaceAt = function (index, replacement) {
  * The method will check for the valid input for calculation
  * @author Sivabhagya Jawahar
  * @param {number/operator} input 
- * @param {number/operator} value 
- * @returns input/value based on the user's valid input
+ * @param {string} value 
+ * @returns value
  */
 function setValidInput(input, value) {
     if (value) {
@@ -87,15 +87,24 @@ function setValidInput(input, value) {
 /**
  * The method is used to set the decimal point for calculation
  * @author Sivabhagya Jawahar
- * @param {number} input 
- * @param {number/operator} value 
- * @returns value/input based on the user's valid input
+ * @param {number/operator} input 
+ * @param {string} value 
+ * @returns value
  */
 function setDecimalInput(input, value) {
     if (value) {
+        if (value == "-") {
+            return "-0.";
+        }
         var lastSpace = value.lastIndexOf(" ");
         if (lastSpace >= 0) {
             var substr = value.substr(lastSpace + 1, value.length);
+            if (!substr) {
+                return value + "0.";
+            }
+            if (substr == "-") {
+                return value + "-0.";
+            }
             return isNaN(substr + input) ? value : value + input;
         }
         return isNaN(value + input) ? value : value + input;
@@ -104,20 +113,29 @@ function setDecimalInput(input, value) {
 }
 
 /**
- * The method is used to calculate the plus 0r minus operation
+ * The method is used to calculate the plus or minus operation
  * @author Sivabhagya Jawahar
- * @param {number} input 
- * @param {number/operator} value 
- * @returns value based on the user's input
+ * @param {string} value 
+ * @returns value
  */
-function plusOrMinusOperation(input, value) {
+function plusOrMinusOperation(value) {
     if (value) {
+        if (value == "-") {
+            return "";
+        }
+        if (value.charAt(value.length - 1) == "-") {
+            return value.slice(0, -1);
+        }
         var lastSpace = value.lastIndexOf(" ");
         if (lastSpace >= 0) {
             var substr = value.substr(lastSpace + 1, value.length);
-            return isNaN(-1 * substr) ? value : value.slice(0, lastSpace+1) + (-1 * substr);
+            if (!substr) {
+                return value + "-";
+            }
+            substr = substr.indexOf("-") >= 0 ? substr.substr(1) : "-" + substr;
+            return value.slice(0, lastSpace + 1) + substr;
         }
-        return isNaN(value * -1) ? value : value * -1;
+        return value.indexOf("-") >= 0 ? value.substr(1) : "-" + value;
     }
     return "-";
 }
