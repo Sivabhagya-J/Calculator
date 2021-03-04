@@ -1,6 +1,9 @@
 <html>
 <head>
     <title>Calculator</title>
+    <meta name="author" content="Sivabhagya Jawahar">
+    <meta name="description" content="Calculator web application using HTML, CSS and javaScript">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
 </head>
@@ -11,26 +14,26 @@
                 <div id="calc-input"></div>
                 <div id="calc-result">0</div>
             </div>
-            <div class="calc-actions">
-                <div onclick="calculate('%')">%</div>
-                <div onclick="calculate('+/-')">+/-</div>
-                <div onclick="clearResult()">C</div>
-                <div onclick="calculate('/')">&#x2215;</div>
-                <div onclick="calculate(7)">7</div>
-                <div onclick="calculate(8)">8</div>
-                <div onclick="calculate(9)">9</div>
-                <div onclick="calculate('x')" class="font40">&#xd7;</div>
-                <div onclick="calculate(4)">4</div>
-                <div onclick="calculate(5)">5</div>
-                <div onclick="calculate(6)">6</div>
-                <div onclick="calculate('-')" class="font40">&#x2212;</div>
-                <div onclick="calculate(1)">1</div>
-                <div onclick="calculate(2)">2</div>
-                <div onclick="calculate(3)">3</div>
-                <div onclick="calculate('+')" class="font40">&#x2b;</div>
-                <div onclick="calculate(0)">0</div>
-                <div onclick="calculate('.')">.</div>
-                <div onclick="calculate('=')" class="font40">=</div>
+            <div class="calc-actions" id="keys">
+                <button value="%">%</button>
+                <button value="negative">+/-</button>
+                <button onclick="clearResult()">C</button>
+                <button value="/">&#x2215;</button>
+                <button value="7">7</button>
+                <button value="8">8</button>
+                <button value="9">9</button>
+                <button value="x" class="font40">&#xd7;</button>
+                <button value="4">4</button>
+                <button value="5">5</button>
+                <button value="6">6</button>
+                <button value="-" class="font40">&#x2212;</button>
+                <button value="1">1</button>
+                <button value="2">2</button>
+                <button value="3">3</button>
+                <button value="+" class="font40">&#x2b;</button>
+                <button value="0">0</button>
+                <button value=".">.</button>
+                <button onclick="equal()" class="font40">=</button>
             </div>
         </div>
     </div>

@@ -52,11 +52,10 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    cursor: pointer;
     user-select: none;
 }
 
-.calc-actions div {
+.calc-actions button {
     height: 80px;
     width: 25%;
     background: linear-gradient(135deg, var(--white) 0%, var(--Lavender) 100%) no-repeat;
@@ -64,29 +63,32 @@
     justify-content: center;
     align-items: center;
     font-size: 24px;
+    border: none !important;
+    outline:none !important;
+    cursor: pointer;
     color: var(--TrollyGray);
 }
 
-.calc-actions div:hover {
+.calc-actions button:hover {
     background: var(--Gainsboro);
 }
 
-.calc-actions div:nth-child(4n+0) {
+.calc-actions button:nth-child(4n+0) {
     background: linear-gradient(135deg, var(--SlatePurple) 0%, var(--Iris) 100%);
     color: var(--white);
 }
 
-.calc-actions div:nth-child(4n+0):hover {
+.calc-actions button:nth-child(4n+0):hover {
     background: var(--RebeccaPurple);
 }
 
-.calc-actions div:last-child {
+.calc-actions button:last-child {
     background: var(--Rose) !important;
     width: 50% !important;
     color: var(--white);
 }
 
-.calc-actions div:last-child:hover {
+.calc-actions button:last-child:hover {
     background: var(--DarkRose) !important;
 }
 
