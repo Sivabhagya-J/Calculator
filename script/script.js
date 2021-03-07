@@ -1,13 +1,28 @@
 /**
- * Adding Event listeners to calculator buttons
+ * This self invoking method adds event listener to calculator buttons
  * @author Sivabhagya Jawahar
  */
-document.getElementById("keys").addEventListener("click", event => {
-    const { target } = event;
-    if (target.matches('button') && target.value) {
-        calculate(target.value.toString());
+"use strict";
+(function onInit() {
+    const keys = document.getElementsByClassName('key');
+    for(let index = 0; index < keys.length; index++) {
+        keys[index].addEventListener('click', event => {
+            if (event && event.target && event.target.value) {
+                const input = event.target.value.toString();
+                switch(input) {
+                    case 'C':
+                        clearResult();
+                        break;
+                    case '=':
+                        equal();
+                        break;
+                    default:
+                        calculate(input);
+                }
+            }
+        });
     }
-});
+})();
 
 /**
  * This method is used to display the input values and calculate the inputs
@@ -15,15 +30,15 @@ document.getElementById("keys").addEventListener("click", event => {
  * @param {number/operator} input 
  */
 function calculate(input) {
-    var displayElement = document.getElementById("calc-input");
-    var value = displayElement.innerHTML;
+    const displayElement = document.getElementById('calc-input');
+    let value = displayElement.innerHTML;
     if (checkOperators(input)) {
-        if (value && value != "-" && value.charAt(value.length - 1) != "-") {
-            value = (checkOperators(value.charAt(value.length - 2)) && value.charAt(value.length - 1) == " ") ? value.replaceAt(value.length - 2, input) : value + " " + input + " ";
+        if (value && value !== '-' && value.charAt(value.length - 1) !== '-') {
+            value = (checkOperators(value.charAt(value.length - 2)) && value.charAt(value.length - 1) === ' ') ? value.replaceAt(value.length - 2, input) : value + ' ' + input + ' ';
         }
-    } else if (input === ".") {
+    } else if (input === '.') {
         value = setDecimalInput(input, value);
-    } else if (input === "negative") {
+    } else if (input === 'negative') {
         value = plusOrMinusOperation(value);
     } else {
         value = setValidInput(input, value);
@@ -39,19 +54,19 @@ function calculate(input) {
  */
 function solve(expression) {
     if (expression && expression.length && !checkOperators(expression[expression.length - 1])) {
-        expression = expression.replaceAll("x", "*");
-        var result = Function('"use strict";return (' + expression + ')')();
-        document.getElementById("calc-result").innerHTML = result != undefined ? Math.round(result * Math.pow(10, 3)) / Math.pow(10, 3) : "";
+        expression = expression.replaceAll('x', '*');
+        const result = Function('"use strict";return (' + expression + ')')();
+        document.getElementById('calc-result').innerHTML = result != undefined ? Math.round(result * Math.pow(10, 3)) / Math.pow(10, 3) : '';
     }
 }
 
 /**
- * This method is used to display the result in input display while clicking the "="
+ * This method is used to display the result in input display while clicking the '='
  * @author Sivabhagya Jawahar
  */
 function equal() {
-    var result = document.getElementById("calc-result").innerHTML;
-    document.getElementById("calc-input").innerHTML = Number(result) ? result : "";
+    const result = document.getElementById('calc-result').innerHTML;
+    document.getElementById('calc-input').innerHTML = Number(result) ? result : '';
 }
 
 /**
@@ -59,8 +74,8 @@ function equal() {
  * @author Sivabhagya Jawahar
  */
 function clearResult() {
-    document.getElementById("calc-input").innerHTML = "";
-    document.getElementById("calc-result").innerHTML = "0";
+    document.getElementById('calc-input').innerHTML = '';
+    document.getElementById('calc-result').innerHTML = '0';
 }
 
 /**
@@ -70,7 +85,7 @@ function clearResult() {
  * @returns true/false
  */
 function checkOperators(input) {
-    return (input === "+" || input === "-" || input === "x" || input === "/" || input === "%");
+    return (input === '+' || input === '-' || input === 'x' || input === '/' || input === '%');
 }
 
 /**
@@ -80,8 +95,8 @@ function checkOperators(input) {
  * @param {replacement string} replacement 
  * @returns replaced value
  */
-String.prototype.replaceAt = function (index, replacement) {
-    return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+String.prototype.replaceAt = function(index, replacement) {
+   return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }
 
 /**
@@ -95,15 +110,15 @@ function setValidInput(input, value) {
     if (!value) {
         return input;
     }
-    var lastSpace = value.lastIndexOf(" ");
+    const lastSpace = value.lastIndexOf(' ');
     if (lastSpace >= 0) {
-        var substr = value.substr(lastSpace + 1, value.length);
-        if (substr && substr.indexOf(".") >= 0) {
+        const substr = value.substr(lastSpace + 1, value.length);
+        if (substr && substr.indexOf('.') >= 0) {
             return value + input;
         }
         return value.slice(0, lastSpace + 1) + Number(substr + input);
     }
-    if (value.indexOf(".") >= 0) {
+    if (value.indexOf('.') >= 0) {
         return value + input;
     }
     return Number(value + input);
@@ -118,16 +133,16 @@ function setValidInput(input, value) {
  */
 function setDecimalInput(input, value) {
     if (!value) {
-        return "0.";
+        return '0.';
     }
-    if (value == "-" || value.charAt(value.length - 1) == "-") {
-        return value + "0.";
+    if (value === '-' || value.charAt(value.length - 1) === '-') {
+        return value + '0.';
     }
-    var lastSpace = value.lastIndexOf(" ");
+    const lastSpace = value.lastIndexOf(' ');
     if (lastSpace >= 0) {
-        var substr = value.substr(lastSpace + 1, value.length);
+        const substr = value.substr(lastSpace + 1, value.length);
         if (!substr) {
-            return value + "0.";
+            return value + '0.';
         }
         return isNaN(substr + input) ? value : value + input;
     }
@@ -142,22 +157,22 @@ function setDecimalInput(input, value) {
  */
 function plusOrMinusOperation(value) {
     if (!value) {
-        return "-";
+        return '-';
     }
-    if (value == "-") {
-        return "";
+    if (value === '-') {
+        return '';
     }
-    if (value.charAt(value.length - 1) == "-") {
+    if (value.charAt(value.length - 1) === '-') {
         return value.slice(0, -1);
     }
-    var lastSpace = value.lastIndexOf(" ");
+    const lastSpace = value.lastIndexOf(' ');
     if (lastSpace >= 0) {
-        var substr = value.substr(lastSpace + 1, value.length);
+        let substr = value.substr(lastSpace + 1, value.length);
         if (!substr) {
-            return value + "-";
+            return value + '-';
         }
-        substr = substr.indexOf("-") >= 0 ? substr.substr(1) : "-" + substr;
+        substr = substr.indexOf('-') >= 0 ? substr.substr(1) : '-' + substr;
         return value.slice(0, lastSpace + 1) + substr;
     }
-    return value.indexOf("-") >= 0 ? value.substr(1) : "-" + value;
+    return value.indexOf('-') >= 0 ? value.substr(1) : '-' + value;
 }
